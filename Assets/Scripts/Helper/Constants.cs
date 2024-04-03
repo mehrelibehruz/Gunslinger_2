@@ -1,10 +1,6 @@
-﻿namespace Helper
-{
-    public class Constants
-    {
-        public const string INPUT_HORIZONTAL = "Horizontal";
-        public const string INPUT_Jump = "Jump";
-        public const string TAG_DEATH_ZONE = "DeathZone";
-        public const string TAG_ENEMY = "Enemy";
-    }
+public class Constants{
+    public const string Old_InputSystem_Horizontal = "Horizontal";
+    public const string Old_InputSystem_Vertical = "Vertical";
+    public const string Tags_Player = "Player";
+    public const string Tags_Enemy = "Enemy";
 }
