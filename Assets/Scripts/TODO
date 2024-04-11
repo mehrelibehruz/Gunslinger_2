@@ -1,0 +1,12 @@
+Fire force effect -=
+----------------------------
+Object pooling
+Gun AdForce
+Scriptable Object
+---------------------
+Instantiate with class
+BOSS TANK, STATE MACHINE
+-------------------------
+Ağırlık (Weight): Silahın karakterin hareketliliği üzerindeki etkisini belirten bir değer. 
+Daha ağır silahlar genellikle daha yavaş hareket etmeye neden olur.
+---------------------------------------------------------------------

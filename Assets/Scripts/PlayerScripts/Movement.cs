@@ -1,44 +1,51 @@
 using UnityEngine;
 
-public class Movement : MonoBehaviour
+public class Movement : MonoBehaviour //, IInteractable
 {
-    [SerializeField][Range(0, 50)] float _speed = 10f, _jumpPower = 10f;
-    public bool doMove = true;
+    [SerializeField] private float _speed;
+    [SerializeField] private float _jumpPower = 10f;
+    private Vector2 _input;    
 
-    IInputReader _input;
-    Vector2 _moveDirection;
-
-    Rigidbody2D _rb;
-    private void Start()
+    Rigidbody2D rb;
+    private void Awake()
     {
-        _rb = GetComponent<Rigidbody2D>();
-        _input = new OldInputReader();
+        rb = GetComponent<Rigidbody2D>();
+        // Debug.Log(this.name);
+        // Debug.Log(this.GetComponent<Movement>().name);
+        // Debug.Log(this.gameObject.name);
     }
 
-    int direction = 1;
+    [SerializeField] private string axesName;
+    [SerializeField] private KeyCode jumpKeyCode;
+
+    private bool isJumping = true;
     private void Update()
     {
-        if (!doMove)
-            return;
+        _input.x = Input.GetAxis(axesName);
+        rb.velocity = new Vector2(_input.x * _speed, rb.velocity.y);
 
-        _moveDirection = _input.MoveDirection;
-        _rb.velocity = new Vector3(_moveDirection.x * _speed, _rb.velocity.y, 0f);
-
-        if (_rb.velocity.x > 0f)
+        if (Input.GetKeyDown(jumpKeyCode) && rb.velocity.y <= 0)
         {
-            transform.localScale = new Vector3(direction, transform.localScale.y, transform.localScale.z);
+            if (isJumping)
+            {
+                rb.AddForce(Vector2.up * _jumpPower, ForceMode2D.Impulse);
+                isJumping = false;
+            }
         }
-        else if(_rb.velocity.x < 0f){
-            transform.localScale = new Vector3(-direction, transform.localScale.y, transform.localScale.z);
-        }        
+        isJumping = true;
 
-        bool isPlatform = Physics2D.OverlapCircle(Player.Instance.feetPosition.position, 0.3f, Player.Instance.layerMask);
-        if (isPlatform && _input.KeyDown(Player.Instance.player_MoveCode[1]))
-        {
-            _rb.AddForce(Vector3.up * _jumpPower, ForceMode2D.Impulse);
-        }
+        // if(Input.GetKeyDown(KeyCode.Mouse0)){            
+        //     Instantiate(null, null);
+        //     transform.position = new Vector3(transform.position.x -3, 0, 0);
+        // }
 
-        Camera.main.transform.position = new Vector3(transform.position.x, /*Mathf.Clamp(transform.position.y, -2f, 2f)*/ transform.position.y, -10f);
+        // Camera.main.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, -10);
     }
-    // TODO: Fixed Update
+    // public Rigidbody2D GetPlayerRigidbody(){
+    //     return rb;
+    // }
+
+    public GameObject GetGameObject(){
+        return gameObject;
+    }
 }
